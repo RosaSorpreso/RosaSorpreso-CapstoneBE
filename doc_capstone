@@ -1,0 +1,15 @@
+IT
+Sito web dedicato all'acquisto di pacchetti di viaggi di gruppo.
+Il sito permette:
+-all'admin di creare, modificare e/o eliminare un pacchetto viaggio (con i suoi relativi dettagli) e visualizzare quali utenti hanno acquistato un pacchetto specifico;
+-al client (in seguito alla registrazione al sito) di poter visualizzare, aggiungere alla wishlist e acquistare uno o più pacchetti viaggio.
+
+EN
+Website for Purchasing Group Travel Packages
+The website allows:
+-the admin to create, modify, and/or delete a travel package (with all its details) and to check which client purchased a specific travel package.
+-the client (after registering on the site) to view, add to the wishlist and purchase one or more travel packages.
+
+Trip (id, name, description, startDate, endDate, capacity, price, whatsIncluded, availableSeats, itinerary, buyers)
+User(id, firstName, lastName, username, email, password, role)
+
