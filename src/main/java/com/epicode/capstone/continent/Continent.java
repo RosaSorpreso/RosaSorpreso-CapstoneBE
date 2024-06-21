@@ -20,6 +20,6 @@ public class Continent {
     @NotBlank
     private String name;
 
-    @ManyToMany(mappedBy = "continents")
+    @OneToMany(mappedBy = "continents")
     private List<Travel> travels;
 }

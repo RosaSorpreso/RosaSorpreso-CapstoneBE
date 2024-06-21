@@ -40,10 +40,9 @@ public class Travel {
     private LocalDate endDate;
 
     @NotNull
-    @Min(10)
     private Integer availableSeats;
 
-    private boolean isSoldOut;
+    private boolean isSoldOut = false;
 
     @NotNull
     @DecimalMin("0.0")
@@ -52,11 +51,11 @@ public class Travel {
     @NotBlank
     private String place;
 
-    @ManyToMany
+    @ManyToOne
     @JoinTable(name = "travel_continents",
             joinColumns = @JoinColumn(name = "travel_id"),
             inverseJoinColumns = @JoinColumn(name = "continent_id"))
-    private List<Continent> continents;
+    private Continent continent;
 
     private boolean passportIsRequired;
 
@@ -70,8 +69,8 @@ public class Travel {
     @Column(name = "description")
     private Map<Integer, String> itinerary;
 
-    @OneToMany(mappedBy = "travel", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Photo> photos;
+    //@OneToMany(mappedBy = "travel", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<Photo> photos;
 
     @NotNull
     @ManyToOne

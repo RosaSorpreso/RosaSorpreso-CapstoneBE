@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface travelRepository extends JpaRepository<Travel, Long> {
+public interface TravelRepository extends JpaRepository<Travel, Long> {
 
     List<Travel> findByContinents(Continent continent);
 
@@ -20,4 +20,5 @@ public interface travelRepository extends JpaRepository<Travel, Long> {
 
     @Query("SELECT t FROM Travel t WHERE MONTH(t.startDate) = :month OR MONTH(t.endDate) = :month")
     List<Travel> findByMonth(@Param("month") int month);
+
 }
