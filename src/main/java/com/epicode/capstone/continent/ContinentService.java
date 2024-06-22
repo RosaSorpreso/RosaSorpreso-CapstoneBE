@@ -49,17 +49,14 @@ public class ContinentService {
         }
     }
 
-    private List<Continent> getAllContinents() {
+    public List<Continent> getAllContinents() {
         return continentRepository.findAll();
     }
 
-    private Response getContinentById(Long id) {
+    public Continent getContinentById(Long id) {
         if (!continentRepository.existsById(id)) {
             throw new EntityNotFoundException("Continent with id " + id + " not found");
         }
-        Continent entity = continentRepository.findById(id).get();
-        Response response = new Response();
-        BeanUtils.copyProperties(entity, response);
-        return response;
+        return continentRepository.findById(id).get();
     }
 }

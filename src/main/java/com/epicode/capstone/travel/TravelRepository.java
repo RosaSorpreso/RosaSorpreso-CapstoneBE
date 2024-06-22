@@ -19,6 +19,6 @@ public interface TravelRepository extends JpaRepository<Travel, Long> {
     List<Travel> findByPassportIsRequired(boolean passportIsRequired);
 
     @Query("SELECT t FROM Travel t WHERE MONTH(t.startDate) = :month OR MONTH(t.endDate) = :month")
-    List<Travel> findByMonth(@Param("month") int month);
+    List<Travel> findByMonth(@Param("month") Integer month);
 
 }

@@ -45,5 +45,5 @@ public class User {
     @JoinTable(name = "user_wishlist",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "travel_id"))
-    private List<Travel> wishlist;
+    private List<Travel> wishlist =  new ArrayList<>();
 }

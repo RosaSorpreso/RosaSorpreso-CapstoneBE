@@ -46,14 +46,11 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Response getCategoryById(Long id) {
+    public Category getCategoryById(Long id) {
         if (!categoryRepository.existsById(id)) {
             throw new EntityNotFoundException("Category with id " + id + " not found");
         }
-        Category entity = categoryRepository.findById(id).get();
-        Response response = new Response();
-        BeanUtils.copyProperties(entity, response);
-        return response;
+        return categoryRepository.findById(id).get();
     }
 
     public Response createCategory(Request request) {

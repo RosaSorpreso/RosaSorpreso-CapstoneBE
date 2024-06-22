@@ -110,11 +110,11 @@ public class TravelService {
         return travelRepository.findByPassportIsRequired(passportIsRequired);
     }
 
-    public List<Travel> findTravelsByMonth(int month) {
+    public List<Travel> findTravelsByMonth(Integer month) {
         return travelRepository.findByMonth(month);
     }
 
-    //PURCHASE
+    //PURCHASE A TRAVEL AND REMOVE IT FROM THE WISHLIST IF PRESENT
     @Transactional
     public String purchaseTravel(Long travelId, User userId) {
         if (!travelRepository.existsById(travelId)) {
@@ -133,7 +133,11 @@ public class TravelService {
         if (travel.getAvailableSeats() == 0){
             travel.setSoldOut(true);
         }
+        if (user.getWishlist().contains(travel)){
+            user.getWishlist().remove(travel);
+        }
         travelRepository.save(travel);
+        userRepository.save(user);
         return "Travel with id " + travelId + " purchased successfully";
     }
 
