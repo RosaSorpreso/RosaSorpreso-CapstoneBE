@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TravelRepository extends JpaRepository<Travel, Long> {
 
-    List<Travel> findByContinents(Continent continent);
+    List<Travel> findByContinent(Continent continent);
 
     List<Travel> findByCategory(Category category);
 

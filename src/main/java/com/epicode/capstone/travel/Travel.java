@@ -13,6 +13,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -81,6 +82,6 @@ public class Travel {
     @JoinTable(name = "travel_users",
             joinColumns = @JoinColumn(name = "travel_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> travelers;
+    private List<User> travelers = new ArrayList<>();
 
 }

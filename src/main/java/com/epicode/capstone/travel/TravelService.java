@@ -5,6 +5,7 @@ import com.epicode.capstone.category.CategoryRepository;
 import com.epicode.capstone.continent.Continent;
 import com.epicode.capstone.continent.ContinentRepository;
 import com.epicode.capstone.photo.PhotoRepository;
+import com.epicode.capstone.security.User;
 import com.epicode.capstone.security.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -23,10 +24,12 @@ public class TravelService {
     private final ContinentRepository continentRepository;
     private final UserRepository userRepository;
 
+    //GET
     public List<Travel> getAllTravels() {
         return travelRepository.findAll();
     }
 
+    // GET BY ID
     public Travel getTravelById(Long id) {
         if (!travelRepository.existsById(id)) {
             throw new EntityNotFoundException("Travel with id " + id + " not found");
@@ -34,6 +37,7 @@ public class TravelService {
         return travelRepository.findById(id).get();
     }
 
+    //POST
     @Transactional
     public Response createTravel(Request request ) {
         if (!categoryRepository.existsById(request.getIdCategories())){
@@ -56,6 +60,7 @@ public class TravelService {
         return response;
     }
 
+    //PUT
     public Response updateTravel(Long id, Request request) {
         if (!travelRepository.existsById(id)) {
             throw new EntityNotFoundException("Travel with id " + id + " not found");
@@ -78,6 +83,7 @@ public class TravelService {
         return response;
     }
 
+    //DELETE
     public String deleteTravel(Long id) {
         if (!travelRepository.existsById(id)) {
             throw new EntityNotFoundException("Travel with id " + id + " not found");
@@ -85,4 +91,50 @@ public class TravelService {
         travelRepository.deleteById(id);
         return "Travel with id " + id + " deleted successfully";
     }
+
+
+    //PERSONALIZED METHODS
+    public List<Travel> findTravelsByContinent(Continent continent) {
+        return travelRepository.findByContinent(continent);
+    }
+
+    public List<Travel> findTravelsByCategory(Category category) {
+        return travelRepository.findByCategory(category);
+    }
+
+    public List<Travel> findTravelsByIsSoldOut(boolean isSoldOut) {
+        return travelRepository.findByIsSoldOut(isSoldOut);
+    }
+
+    public List<Travel> findTravelsByPassportIsRequired(boolean passportIsRequired) {
+        return travelRepository.findByPassportIsRequired(passportIsRequired);
+    }
+
+    public List<Travel> findTravelsByMonth(int month) {
+        return travelRepository.findByMonth(month);
+    }
+
+    //PURCHASE
+    @Transactional
+    public String purchaseTravel(Long travelId, User userId) {
+        if (!travelRepository.existsById(travelId)) {
+            throw new EntityNotFoundException("Travel with id " + travelId + " not found");
+        }
+        if (!userRepository.existsById(userId.getId())) {
+            throw new EntityNotFoundException("User with id " + userId.getId() + " not found");
+        }
+        Travel travel = travelRepository.findById(travelId).get();
+        User user = userRepository.findById(userId.getId()).get();
+        if (travel.getAvailableSeats() <= 0){
+            throw new IllegalStateException("Travel with id " + travelId + " has no available seats");
+        }
+        travel.setAvailableSeats(travel.getAvailableSeats() - 1);
+        travel.getTravelers().add(user);
+        if (travel.getAvailableSeats() == 0){
+            travel.setSoldOut(true);
+        }
+        travelRepository.save(travel);
+        return "Travel with id " + travelId + " purchased successfully";
+    }
+
 }
