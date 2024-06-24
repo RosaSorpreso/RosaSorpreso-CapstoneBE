@@ -22,7 +22,4 @@ public class Category {
 
     @NotBlank
     private String description;
-
-    @OneToMany(mappedBy = "category")
-    private List<Travel> travels;
 }

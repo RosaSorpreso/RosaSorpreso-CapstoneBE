@@ -53,13 +53,11 @@ public class CategoryService {
         return categoryRepository.findById(id).get();
     }
 
-    public Response createCategory(Request request) {
+    public Category createCategory(Request request) {
         Category entity = new Category();
         BeanUtils.copyProperties(request, entity);
-        Response response = new Response();
-        BeanUtils.copyProperties(entity, response);
         categoryRepository.save(entity);
-        return response;
+        return entity;
     }
 
     public String deleteCategoryById(Long id) {

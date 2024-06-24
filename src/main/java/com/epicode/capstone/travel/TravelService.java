@@ -116,15 +116,15 @@ public class TravelService {
 
     //PURCHASE A TRAVEL AND REMOVE IT FROM THE WISHLIST IF PRESENT
     @Transactional
-    public String purchaseTravel(Long travelId, User userId) {
+    public String purchaseTravel(Long travelId, Long userId) {
         if (!travelRepository.existsById(travelId)) {
             throw new EntityNotFoundException("Travel with id " + travelId + " not found");
         }
-        if (!userRepository.existsById(userId.getId())) {
-            throw new EntityNotFoundException("User with id " + userId.getId() + " not found");
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User with id " + userId + " not found");
         }
         Travel travel = travelRepository.findById(travelId).get();
-        User user = userRepository.findById(userId.getId()).get();
+        User user = userRepository.findById(userId).get();
         if (travel.getAvailableSeats() <= 0){
             throw new IllegalStateException("Travel with id " + travelId + " has no available seats");
         }

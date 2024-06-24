@@ -1,5 +1,7 @@
 package com.epicode.capstone.travel;
 
+import com.epicode.capstone.category.Category;
+import com.epicode.capstone.continent.Continent;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -16,11 +18,11 @@ public class Response {
     private Integer availableSeats;
     private Double price;
     private String place;
-    private com.epicode.capstone.continent.Response continent;
+    private Continent continent;
     private boolean passportIsRequired;
     private List<String> whatsIncluded;
     private Map<Integer, String> itinerary;
     //private com.epicode.capstone.photo.Response photos;
-    private com.epicode.capstone.category.Response category;
+    private Category category;
     private boolean isSoldOut = false;
 }

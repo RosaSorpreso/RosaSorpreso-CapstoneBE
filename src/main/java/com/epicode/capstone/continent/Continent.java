@@ -19,7 +19,4 @@ public class Continent {
 
     @NotBlank
     private String name;
-
-    @OneToMany(mappedBy = "continent")
-    private List<Travel> travels;
 }

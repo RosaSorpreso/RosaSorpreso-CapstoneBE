@@ -110,7 +110,7 @@ public class TravelController {
 
     //POST TO PURCHASE A TRAVEL
     @PostMapping("/purchase/{travelId}")
-    public ResponseEntity<String> purchaseTravel(@PathVariable Long travelId, @RequestBody User user) {
+    public ResponseEntity<String> purchaseTravel(@PathVariable Long travelId, @RequestBody Long user) {
         try {
             String result = travelService.purchaseTravel(travelId, user);
             return ResponseEntity.ok(result);

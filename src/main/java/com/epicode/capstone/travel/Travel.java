@@ -4,6 +4,7 @@ import com.epicode.capstone.category.Category;
 import com.epicode.capstone.continent.Continent;
 import com.epicode.capstone.photo.Photo;
 import com.epicode.capstone.security.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;

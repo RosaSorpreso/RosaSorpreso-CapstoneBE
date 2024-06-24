@@ -62,7 +62,8 @@ public class ApplicationSecurityConfig {
                                         .requestMatchers("/users/registerAdmin").permitAll() // DA CANCELLARE DOPO AVER CREATO L'ADMIN
                                         .requestMatchers(HttpMethod.POST, "/users/register").permitAll() //ENDPOINT DI REGISTRAZIONE APERTO A TUTTI
                                         .requestMatchers(HttpMethod.GET, "/**").authenticated() //TUTTE GLI ENDPOINTS DI TIPO GET SONO RICHIAMABILI SOLO SE L'UTENTE E AUTENTICATO
-                                        .requestMatchers(HttpMethod.POST, "/**").hasAuthority("ADMIN") //TUTTE LE POST POSSONO ESSERE FATTE SOLO DALL'ADMIN
+                                        .requestMatchers(HttpMethod.POST, "/travels/create").hasAuthority("ADMIN")
+                                        .requestMatchers(HttpMethod.POST, "/travels/purchase/{travelId}").authenticated()//TUTTE LE POST POSSONO ESSERE FATTE SOLO DALL'ADMIN
                                         .requestMatchers(HttpMethod.PATCH, "/users/{id}").authenticated() //SOLO UN UTENTE AUTENTICATO PUO MODIFICARE I SUOI DATI
                                         .requestMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN") //TUTTE LE PUT POSSONO ESSERE FATTE SOLO DALL'ADMIN
                                         .requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN") //TUTTE LE DELETE POSSONO ESSERE FATTE SOLO DALL'ADMIN
