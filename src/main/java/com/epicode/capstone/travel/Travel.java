@@ -53,9 +53,7 @@ public class Travel {
     private String place;
 
     @ManyToOne
-    @JoinTable(name = "travel_continent",
-            joinColumns = @JoinColumn(name = "travel_id"),
-            inverseJoinColumns = @JoinColumn(name = "continent_id"))
+    @JoinColumn(name = "continent_id")
     private Continent continent;
 
     private boolean passportIsRequired;

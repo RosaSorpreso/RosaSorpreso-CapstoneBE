@@ -96,7 +96,7 @@ public class TravelController {
     }
 
     //POST
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Response> createTravel(@Validated @RequestBody Request request) {
         try {
             Response travel = travelService.createTravel(request);
