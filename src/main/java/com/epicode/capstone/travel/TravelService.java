@@ -25,16 +25,18 @@ public class TravelService {
     private final UserRepository userRepository;
 
     //GET
-    public List<Travel> getAllTravels() {
-        return travelRepository.findAll();
+    public List<CompleteResponse> getAllTravels() {
+        List<Travel> travels = travelRepository.findAll();
+        return TravelMapper.INSTANCE.travelsToResponses(travels);
     }
 
     // GET BY ID
-    public Travel getTravelById(Long id) {
+    public CompleteResponse getTravelById(Long id) {
         if (!travelRepository.existsById(id)) {
             throw new EntityNotFoundException("Travel with id " + id + " not found");
         }
-        return travelRepository.findById(id).get();
+        Travel travel = travelRepository.findById(id).get();
+        return TravelMapper.INSTANCE.travelToResponse(travel);
     }
 
     //POST

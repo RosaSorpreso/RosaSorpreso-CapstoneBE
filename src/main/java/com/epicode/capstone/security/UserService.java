@@ -2,6 +2,7 @@ package com.epicode.capstone.security;
 
 
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -136,8 +138,19 @@ public class UserService {
         return size;
     }
 
-    public List<User> getUsers() {
-        return usersRepository.findAll();
+    public List<UserCompleteResponse> getUsers() {
+        List<User> users = usersRepository.findAll();
+        return users.stream()
+                .map(UserMapper.INSTANCE::userToUserCompleteResponse)
+                .collect(Collectors.toList());
+    }
+
+    public UserCompleteResponse getUserById(Long id) {
+        if (!usersRepository.existsById(id)) {
+            throw new EntityNotFoundException("User with id " + id + " not found");
+        }
+        User user = usersRepository.findById(id).get();
+        return UserMapper.INSTANCE.userToUserCompleteResponse(user);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.epicode.capstone.security;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,18 @@ public class UserController {
     private final UserService user;
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserCompleteResponse>> getAllUsers() {
         return ResponseEntity.ok(user.getUsers());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserCompleteResponse> getUserById(@PathVariable Long id) {
+        try {
+            UserCompleteResponse userResponse = user.getUserById(id);
+            return ResponseEntity.ok(userResponse);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/register")

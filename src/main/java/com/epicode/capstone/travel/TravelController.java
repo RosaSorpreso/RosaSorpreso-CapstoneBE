@@ -21,15 +21,15 @@ public class TravelController {
 
     //GET
     @GetMapping
-    public ResponseEntity<List<Travel>> getAllTravels() {
+    public ResponseEntity<List<CompleteResponse>> getAllTravels() {
         return ResponseEntity.ok(travelService.getAllTravels());
     }
 
     //GET BY ID
     @GetMapping("/{id}")
-    public ResponseEntity<Travel> getTravelById(@PathVariable Long id) {
+    public ResponseEntity<CompleteResponse> getTravelById(@PathVariable Long id) {
         try {
-            Travel travel = travelService.getTravelById(id);
+            CompleteResponse travel = travelService.getTravelById(id);
             return ResponseEntity.ok(travel);
         } catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
