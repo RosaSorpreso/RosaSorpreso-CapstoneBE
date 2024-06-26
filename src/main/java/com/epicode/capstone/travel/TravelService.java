@@ -4,6 +4,7 @@ import com.epicode.capstone.category.Category;
 import com.epicode.capstone.category.CategoryRepository;
 import com.epicode.capstone.continent.Continent;
 import com.epicode.capstone.continent.ContinentRepository;
+import com.epicode.capstone.email.EmailService;
 import com.epicode.capstone.photo.PhotoRepository;
 import com.epicode.capstone.security.User;
 import com.epicode.capstone.security.UserRepository;
@@ -23,6 +24,7 @@ public class TravelService {
     private final CategoryRepository categoryRepository;
     private final ContinentRepository continentRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     //GET
     public List<CompleteResponse> getAllTravels() {
@@ -140,7 +142,30 @@ public class TravelService {
         }
         travelRepository.save(travel);
         userRepository.save(user);
+        emailService.sendConfirmMail(user, travel);
         return "Travel with id " + travelId + " purchased successfully";
+    }
+
+    //ADD TRAVEL TO WISHLIST
+    @Transactional
+    public String addTravelToWishlist(Long travelId, Long userId) {
+        if (!travelRepository.existsById(travelId)) {
+            throw new EntityNotFoundException("Travel with id " + travelId + " not found");
+        }
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User with id " + userId + " not found");
+        }
+
+        Travel travel = travelRepository.findById(travelId).get();
+        User user = userRepository.findById(userId).get();
+
+        if (!user.getWishlist().contains(travel)) {
+            user.getWishlist().add(travel);
+            userRepository.save(user);
+            return "Travel with id " + travelId + " added to wishlist successfully";
+        } else {
+            return "Travel with id " + travelId + " is already in the wishlist";
+        }
     }
 
 }

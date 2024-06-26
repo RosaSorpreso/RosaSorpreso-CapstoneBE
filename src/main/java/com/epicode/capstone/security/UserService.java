@@ -1,6 +1,7 @@
 package com.epicode.capstone.security;
 
 
+import com.epicode.capstone.email.EmailService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class UserService {
     private final RolesRepository rolesRepository;
     private final AuthenticationManager auth;
     private final JwtUtils jwt;
-    //private final EmailService emailService;
+    private final EmailService emailService;
 
     @Value("${spring.servlet.multipart.max-file-size}")
     private String maxFileSize;
@@ -75,15 +76,7 @@ public class UserService {
             throw new EntityExistsException("Email gia' registrata");
         }
         Roles roles = rolesRepository.findById(Roles.ROLES_USER).get();
-        /*
-        if(!rolesRepository.existsById(Roles.ROLES_USER)){
-            roles = new Roles();
-            roles.setRoleType(Roles.ROLES_USER);
-        } else {
-            roles = rolesRepository.findById(Roles.ROLES_USER).get();
-        }
 
-         */
         User u = new User();
         BeanUtils.copyProperties(register, u);
         u.setPassword(encoder.encode(register.getPassword()));
@@ -92,7 +85,7 @@ public class UserService {
         RegisteredUserDTO response = new RegisteredUserDTO();
         BeanUtils.copyProperties(u, response);
         response.setRoles(List.of(roles));
-        //emailService.sendWelcomeEmail(u.getEmail());
+        emailService.sendMail(u);
 
         return response;
 

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 //import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -59,14 +60,15 @@ public class ApplicationSecurityConfig {
                 .authorizeHttpRequests(authorize ->
                                 authorize //CONFIGURAZIONE DELLA PROTEZIONE DEI VARI ENDPOINT
                                         .requestMatchers("/users/login").permitAll()
-                                        .requestMatchers("/users/registerAdmin").permitAll() // DA CANCELLARE DOPO AVER CREATO L'ADMIN
-                                        .requestMatchers(HttpMethod.POST, "/users/register").permitAll() //ENDPOINT DI REGISTRAZIONE APERTO A TUTTI
-                                        .requestMatchers(HttpMethod.GET, "/**").authenticated() //TUTTE GLI ENDPOINTS DI TIPO GET SONO RICHIAMABILI SOLO SE L'UTENTE E AUTENTICATO
+                                        .requestMatchers("/users/registerAdmin").permitAll()
+                                        .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/**").authenticated()
                                         .requestMatchers(HttpMethod.POST, "/travels/create").hasAuthority("ADMIN")
-                                        .requestMatchers(HttpMethod.POST, "/travels/purchase/{travelId}").authenticated()//TUTTE LE POST POSSONO ESSERE FATTE SOLO DALL'ADMIN
-                                        .requestMatchers(HttpMethod.PATCH, "/users/{id}").authenticated() //SOLO UN UTENTE AUTENTICATO PUO MODIFICARE I SUOI DATI
-                                        .requestMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN") //TUTTE LE PUT POSSONO ESSERE FATTE SOLO DALL'ADMIN
-                                        .requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN") //TUTTE LE DELETE POSSONO ESSERE FATTE SOLO DALL'ADMIN
+                                        .requestMatchers(HttpMethod.POST, "/travels/purchase/{travelId}").authenticated()
+                                        .requestMatchers(HttpMethod.POST, "/travels/wishlist/{travelId}").authenticated()
+                                        .requestMatchers(HttpMethod.PATCH, "/users/{id}").authenticated()
+                                        .requestMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN")
+                                        .requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
                         //.requestMatchers("/**").authenticated() //TUTTO CIO CHE PUO ESSERE SFUGGITO RICHIEDE L'AUTENTICAZIONE (SERVE A GESTIRE EVENTUALI DIMENTICANZE)
                 )
                 .httpBasic(Customizer.withDefaults())
@@ -77,7 +79,7 @@ public class ApplicationSecurityConfig {
         return http.build();
     }
 
-    /*@Bean
+    @Bean
     public JavaMailSenderImpl getJavaMailSender(@Value("${gmail.mail.transport.protocol}" )String protocol,
                                                 @Value("${gmail.mail.smtp.auth}" ) String auth,
                                                 @Value("${gmail.mail.smtp.starttls.enable}" )String starttls,
@@ -103,7 +105,7 @@ public class ApplicationSecurityConfig {
         props.put("smtp.ssl.enable",ssl);
 
         return mailSender;
-    }*/
+    }
 
 }
 
