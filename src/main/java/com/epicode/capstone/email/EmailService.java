@@ -67,7 +67,7 @@ public class EmailService {
                             + user.getFirstName() + " " + user.getLastName()
                             + "</strong></span>"
                             + "<p style='font-size: 18px;'>"
-                            + travel.getName() + " " + travel.getPrice()
+                            + travel.getName() + "  " + travel.getPrice()
                             + "</div>"
                             + "</div>"
                             + "</body>"
