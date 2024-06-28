@@ -1,11 +1,11 @@
 package com.epicode.capstone.travel;
 
+import com.cloudinary.Cloudinary;
 import com.epicode.capstone.category.Category;
 import com.epicode.capstone.category.CategoryRepository;
 import com.epicode.capstone.continent.Continent;
 import com.epicode.capstone.continent.ContinentRepository;
 import com.epicode.capstone.email.EmailService;
-import com.epicode.capstone.photo.PhotoRepository;
 import com.epicode.capstone.security.User;
 import com.epicode.capstone.security.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,8 +13,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +30,7 @@ public class TravelService {
     private final ContinentRepository continentRepository;
     private final UserRepository userRepository;
     private final EmailService emailService;
+    private final Cloudinary cloudinary;
 
     //GET
     public List<CompleteResponse> getAllTravels() {
@@ -43,7 +49,7 @@ public class TravelService {
 
     //POST
     @Transactional
-    public Response createTravel(Request request ) {
+    public Response createTravel(Request request, MultipartFile[] files ) throws IOException {
         if (!categoryRepository.existsById(request.getIdCategories())){
             throw new EntityNotFoundException("Category with id " + request.getIdCategories() + " not found");
         }
@@ -52,7 +58,17 @@ public class TravelService {
             throw new EntityNotFoundException("Continent with id " + request.getIdContinent() + " not found");
         }
 
+        List<String> urls = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            var uploadResult = cloudinary.uploader().upload(file.getBytes(),
+                    com.cloudinary.utils.ObjectUtils.asMap("public_id", request.getName() + "_avatar_" + UUID.randomUUID().toString()));
+            String url = uploadResult.get("url").toString();
+            urls.add(url);
+        }
+
         Travel entity = new Travel();
+        entity.setPhotos(urls);
         BeanUtils.copyProperties(request,entity);
         Category category = categoryRepository.findById(request.getIdCategories()).get();
         Continent continent = continentRepository.findById(request.getIdContinent()).get();

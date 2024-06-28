@@ -2,14 +2,18 @@ package com.epicode.capstone.travel;
 
 import com.epicode.capstone.category.Category;
 import com.epicode.capstone.continent.Continent;
-import com.epicode.capstone.security.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -96,16 +100,18 @@ public class TravelController {
     }
 
     //POST
-    @PostMapping("/create")
-    public ResponseEntity<Response> createTravel(@Validated @RequestBody Request request) {
+    @PostMapping(value = "/create", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<Response> createTravel(@RequestPart("travel") String travelJson, @RequestPart("file") MultipartFile[] files) throws IOException {
         try {
-            Response travel = travelService.createTravel(request);
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            Request request = objectMapper.readValue(travelJson, Request.class);
+            Response travel = travelService.createTravel(request, files);
             return ResponseEntity.status(HttpStatus.CREATED).body(travel);
         } catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+
     }
 
     //POST TO PURCHASE A TRAVEL

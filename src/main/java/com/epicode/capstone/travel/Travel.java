@@ -2,12 +2,9 @@ package com.epicode.capstone.travel;
 
 import com.epicode.capstone.category.Category;
 import com.epicode.capstone.continent.Continent;
-import com.epicode.capstone.photo.Photo;
 import com.epicode.capstone.security.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -61,7 +58,7 @@ public class Travel {
 
     @NotNull
     @ElementCollection
-    private List<String> whatsIncluded;
+    private List<String> whatsIncluded = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "itinerary", joinColumns = @JoinColumn(name = "travel_id"))
@@ -69,8 +66,10 @@ public class Travel {
     @Column(name = "description")
     private Map<Integer, String> itinerary;
 
-    //@OneToMany(mappedBy = "travel", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Photo> photos;
+    @NotNull
+    @ElementCollection
+    private List<String> photos = new ArrayList<>();
+    //private String photo;
 
     @NotNull
     @ManyToOne

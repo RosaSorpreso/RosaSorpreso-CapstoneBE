@@ -24,7 +24,8 @@ public class CompleteResponse {
     private boolean passportIsRequired;
     private List<String> whatsIncluded;
     private Map<Integer, String> itinerary;
-    //private com.epicode.capstone.photo.Response photos;
+    private List<String> photos;
+    //private String photo;
     private Category category;
     private boolean isSoldOut = false;
     private List<UserResponse> travelers = new ArrayList<>();
