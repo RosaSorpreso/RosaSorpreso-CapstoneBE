@@ -62,5 +62,24 @@ public class UserController {
         return ResponseEntity.ok(user.registerAdmin(registerUser));
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<RegisteredUserDTO> updateUser(@PathVariable Long id, @RequestBody @Validated RegisterUserDTO updateUserDTO, BindingResult validator){
+        if (validator.hasErrors()) {
+            throw new ApiValidationException(validator.getAllErrors());
+        }
+        RegisteredUserDTO updatedUser = user.updateUser(id, updateUserDTO);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        try {
+            String result = user.deleteUserById(id);
+            return ResponseEntity.ok(result);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
 

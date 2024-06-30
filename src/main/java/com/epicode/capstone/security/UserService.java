@@ -146,4 +146,29 @@ public class UserService {
         return UserMapper.INSTANCE.userToUserCompleteResponse(user);
     }
 
+    public RegisteredUserDTO updateUser(Long id, RegisterUserDTO updateUserDTO) {
+        if (!usersRepository.existsById(id)) {
+            throw new EntityNotFoundException("User with id " + id + " not found");
+        }
+        User user = usersRepository.findById(id).get();
+        if (updateUserDTO.getFirstName() != null) user.setFirstName(updateUserDTO.getFirstName());
+        if (updateUserDTO.getLastName() != null) user.setLastName(updateUserDTO.getLastName());
+        if (updateUserDTO.getUsername() != null) user.setUsername(updateUserDTO.getUsername());
+        if (updateUserDTO.getEmail() != null) user.setEmail(updateUserDTO.getEmail());
+        if (updateUserDTO.getPassword() != null) user.setPassword(encoder.encode(updateUserDTO.getPassword()));
+        usersRepository.save(user);
+        RegisteredUserDTO response = new RegisteredUserDTO();
+        BeanUtils.copyProperties(user, response);
+        response.setRoles(user.getRoles());
+        return response;
+    }
+
+    public String deleteUserById(Long id) {
+        if (!usersRepository.existsById(id)) {
+            throw new EntityNotFoundException("User with id " + id + " not found");
+        }
+        usersRepository.deleteById(id);
+        return "User with id " + id + " deleted successfully";
+    }
+
 }
