@@ -42,12 +42,13 @@ public class TravelController {
 
     //GET BY CONTINENT
     @GetMapping("/continent/{continentId}")
-    public ResponseEntity<List<Travel>> findTravelsByContinent(@PathVariable Long continentId) {
+    public ResponseEntity<List<Response>> findTravelsByContinent(@PathVariable Long continentId) {
         try {
             Continent continent = new Continent();
             continent.setId(continentId);
             List<Travel> travels = travelService.findTravelsByContinent(continent);
-            return ResponseEntity.ok(travels);
+            List<Response> responses = TravelMapper.INSTANCE.travelsToResponses(travels);
+            return ResponseEntity.ok(responses);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -55,12 +56,13 @@ public class TravelController {
 
     //GET BY CATEGORY
     @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<Travel>> findTravelsByCategory(@PathVariable Long categoryId) {
+    public ResponseEntity<List<Response>> findTravelsByCategory(@PathVariable Long categoryId) {
         try {
             Category category = new Category();
             category.setId(categoryId);
             List<Travel> travels = travelService.findTravelsByCategory(category);
-            return ResponseEntity.ok(travels);
+            List<Response> responses = TravelMapper.INSTANCE.travelsToResponses(travels);
+            return ResponseEntity.ok(responses);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -68,10 +70,11 @@ public class TravelController {
 
     //GET BY IS SOLDOUT
     @GetMapping("/soldout/{isSoldOut}")
-    public ResponseEntity<List<Travel>> findTravelsBySoldOut(@PathVariable Boolean isSoldOut) {
+    public ResponseEntity<List<Response>> findTravelsBySoldOut(@PathVariable Boolean isSoldOut) {
         try {
             List<Travel> travels = travelService.findTravelsByIsSoldOut(isSoldOut);
-            return ResponseEntity.ok(travels);
+            List<Response> responses = TravelMapper.INSTANCE.travelsToResponses(travels);
+            return ResponseEntity.ok(responses);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -79,10 +82,11 @@ public class TravelController {
 
     //GET BY PASSPORT IS REQUIRED
     @GetMapping("/passport/{passportIsRequired}")
-    public ResponseEntity<List<Travel>> findTravelsByPassport(@PathVariable Boolean passportIsRequired) {
+    public ResponseEntity<List<Response>> findTravelsByPassport(@PathVariable Boolean passportIsRequired) {
         try {
             List<Travel> travels = travelService.findTravelsByPassportIsRequired(passportIsRequired);
-            return ResponseEntity.ok(travels);
+            List<Response> responses = TravelMapper.INSTANCE.travelsToResponses(travels);
+            return ResponseEntity.ok(responses);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -90,10 +94,11 @@ public class TravelController {
 
     //GET BY MONTH
     @GetMapping("/month/{month}")
-    public ResponseEntity<List<Travel>> findTravelsByMonth(@PathVariable Integer month) {
+    public ResponseEntity<List<Response>> findTravelsByMonth(@PathVariable Integer month) {
         try {
             List<Travel> travels = travelService.findTravelsByMonth(month);
-            return ResponseEntity.ok(travels);
+            List<Response> responses = TravelMapper.INSTANCE.travelsToResponses(travels);
+            return ResponseEntity.ok(responses);
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }

@@ -9,6 +9,9 @@ import java.util.List;
 public interface TravelMapper {
     TravelMapper INSTANCE = Mappers.getMapper(TravelMapper.class);
 
-    CompleteResponse travelToResponse(Travel travel);
-    List<CompleteResponse> travelsToResponses(List<Travel> travels);
+    CompleteResponse travelToCompleteResponse(Travel travel);
+    List<CompleteResponse> travelsToCompleteResponses(List<Travel> travels);
+
+    Response travelToResponse(Travel travel);
+    List<Response> travelsToResponses(List<Travel> travels);
 }

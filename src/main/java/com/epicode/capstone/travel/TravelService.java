@@ -35,7 +35,7 @@ public class TravelService {
     //GET
     public List<CompleteResponse> getAllTravels() {
         List<Travel> travels = travelRepository.findAll();
-        return TravelMapper.INSTANCE.travelsToResponses(travels);
+        return TravelMapper.INSTANCE.travelsToCompleteResponses(travels);
     }
 
     // GET BY ID
@@ -44,7 +44,7 @@ public class TravelService {
             throw new EntityNotFoundException("Travel with id " + id + " not found");
         }
         Travel travel = travelRepository.findById(id).get();
-        return TravelMapper.INSTANCE.travelToResponse(travel);
+        return TravelMapper.INSTANCE.travelToCompleteResponse(travel);
     }
 
     //POST

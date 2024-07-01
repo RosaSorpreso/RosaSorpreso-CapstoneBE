@@ -69,7 +69,6 @@ public class Travel {
     @NotNull
     @ElementCollection
     private List<String> photos = new ArrayList<>();
-    //private String photo;
 
     @NotNull
     @ManyToOne

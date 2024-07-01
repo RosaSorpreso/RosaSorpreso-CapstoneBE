@@ -23,7 +23,6 @@ public class Response {
     private List<String> whatsIncluded;
     private Map<Integer, String> itinerary;
     private List<String> photos;
-    //private String photo;
     private Category category;
     private boolean isSoldOut = false;
 }
