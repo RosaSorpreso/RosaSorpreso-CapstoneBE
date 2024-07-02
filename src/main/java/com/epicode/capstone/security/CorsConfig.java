@@ -14,8 +14,8 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.addAllowedOrigin("http://localhost:4200");
-        configuration.addAllowedMethod("**");
-        configuration.addAllowedHeader("**");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);
 
         configuration.addExposedHeader("Authorization");

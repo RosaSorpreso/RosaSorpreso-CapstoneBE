@@ -62,7 +62,7 @@ public class ApplicationSecurityConfig {
                                         .requestMatchers("/users/login").permitAll()
                                         .requestMatchers("/users/registerAdmin").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/users/register").permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/**").authenticated()
+                                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/travels/create").hasAuthority("ADMIN")
                                         .requestMatchers(HttpMethod.POST, "/travels/purchase/{travelId}").authenticated()
                                         .requestMatchers(HttpMethod.POST, "/travels/wishlist/{travelId}").authenticated()
