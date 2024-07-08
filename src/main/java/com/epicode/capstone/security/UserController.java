@@ -59,10 +59,10 @@ public class UserController {
         return new ResponseEntity<>(user.login(model.username(), model.password()).orElseThrow(), HttpStatus.OK);
     }
 
-    @PostMapping("/registerAdmin")
-    public ResponseEntity<RegisteredUserDTO> registerAdmin(@RequestBody RegisterUserDTO registerUser){
-        return ResponseEntity.ok(user.registerAdmin(registerUser));
-    }
+    //@PostMapping("/registerAdmin")
+    //public ResponseEntity<RegisteredUserDTO> registerAdmin(@RequestBody RegisterUserDTO registerUser){
+        //return ResponseEntity.ok(user.registerAdmin(registerUser));
+    //}
 
     @PutMapping("/update/{id}")
     public ResponseEntity<RegisteredUserDTO> updateUser(@PathVariable Long id, @RequestBody @Validated RegisterUserDTO updateUserDTO, BindingResult validator){

@@ -108,6 +108,14 @@ public class TravelService {
         if (!travelRepository.existsById(id)) {
             throw new EntityNotFoundException("Travel with id " + id + " not found");
         }
+        Travel travel = travelRepository.findById(id).get();
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            if (user.getWishlist().contains(travel)) {
+                user.getWishlist().remove(travel);
+                userRepository.save(user);
+            }
+        }
         travelRepository.deleteById(id);
         return "Travel with id " + id + " deleted successfully";
     }
@@ -155,6 +163,9 @@ public class TravelService {
         }
         if (user.getWishlist().contains(travel)){
             user.getWishlist().remove(travel);
+        }
+        if (user.getTravelsPurchased().contains(travel)){
+            user.getTravelsPurchased().remove(travel);
         }
         travelRepository.save(travel);
         userRepository.save(user);
