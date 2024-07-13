@@ -147,6 +147,19 @@ public class TravelController {
         }
     }
 
+    //POST TO REMOVE TRAVEL FROM WISHLIST
+    @PostMapping("/wishlist/remove/{travelId}")
+    public ResponseEntity<String> removeTravelFromWishlist(@PathVariable Long travelId, @RequestBody Long userId) {
+        try {
+            String result = travelService.removeTravelFromWishlist(travelId, userId);
+            return ResponseEntity.ok(result);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+        }
+    }
+
     //PUT
     @PutMapping("/update/{id}")
     public ResponseEntity<Response> updateTravel(@PathVariable Long id, @Validated @RequestBody Request request) {

@@ -15,33 +15,6 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    @PostConstruct
-    public void initCategories() {
-
-        Category avventura = new Category();
-        avventura.setName("Avventura");
-        avventura.setDescription("Avventura");
-
-        Category relax = new Category();
-        relax.setName("Relax");
-        relax.setDescription("Relax");
-
-        Category cultura = new Category();
-        cultura.setName("Cultura");
-        cultura.setDescription("Cultura");
-
-        Category aTema = new Category();
-        aTema.setName("A Tema");
-        aTema.setDescription("A Tema");
-
-        if (categoryRepository.findAll().isEmpty()) {
-            categoryRepository.save(avventura);
-            categoryRepository.save(relax);
-            categoryRepository.save(cultura);
-            categoryRepository.save(aTema);
-        }
-    }
-
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }

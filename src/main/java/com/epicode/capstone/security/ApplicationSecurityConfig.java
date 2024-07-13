@@ -66,6 +66,7 @@ public class ApplicationSecurityConfig {
                                         .requestMatchers(HttpMethod.POST, "/travels/create").hasAuthority("ADMIN")
                                         .requestMatchers(HttpMethod.POST, "/travels/purchase/{travelId}").authenticated()
                                         .requestMatchers(HttpMethod.POST, "/travels/wishlist/{travelId}").authenticated()
+                                        .requestMatchers(HttpMethod.POST, "/travels/wishlist/remove/{travelId}").authenticated()
                                         .requestMatchers(HttpMethod.POST, "/categories").hasAuthority("ADMIN")
                                         .requestMatchers(HttpMethod.PATCH, "/users/{id}").authenticated()
                                         .requestMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN")

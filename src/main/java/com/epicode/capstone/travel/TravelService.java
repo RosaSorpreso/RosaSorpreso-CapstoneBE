@@ -195,4 +195,23 @@ public class TravelService {
         }
     }
 
+    @Transactional
+    public String removeTravelFromWishlist(Long travelId, Long userId) {
+        if (!travelRepository.existsById(travelId)) {
+            throw new EntityNotFoundException("Travel with id " + travelId + " not found");
+        }
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User with id " + userId + " not found");
+        }
+        Travel travel = travelRepository.findById(travelId).get();
+        User user = userRepository.findById(userId).get();
+        if (user.getWishlist().contains(travel)) {
+            user.getWishlist().remove(travel);
+            userRepository.save(user);
+            return "Travel with id " + travelId + " removed from wishlist successfully";
+        } else {
+            return "Travel with id " + travelId + " is not in the wishlist";
+        }
+    }
+
 }
